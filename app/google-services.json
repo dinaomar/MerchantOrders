@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "142357873016",
+    "firebase_url": "https://merchantorders-1c330.firebaseio.com",
+    "project_id": "merchantorders-1c330",
+    "storage_bucket": "merchantorders-1c330.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:142357873016:android:c734193bb2ec1456",
+        "android_client_info": {
+          "package_name": "com.gmail.dina_elsaftawy.merchantorder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "142357873016-4uu6d4tpp4tjfc7kjcv3tccpemvnfdl9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4YY_2Dz14X7i-p_iuxss20wFqsqFLOV0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

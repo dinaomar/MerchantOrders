@@ -3,7 +3,10 @@ package com.gmail.dina_elsaftawy.merchantorder.presenter;
 import android.app.Activity;
 import android.content.Intent;
 
+import com.gmail.dina_elsaftawy.merchantorder.model.data.order;
 import com.gmail.dina_elsaftawy.merchantorder.view.RegistrationActivity;
+
+import java.util.ArrayList;
 
 /**
  * Created by dina_elsaftawy on 12/3/2018.
@@ -30,5 +33,13 @@ public interface MainContract {
 
         void callFireBase();
 
+    }
+
+    interface ListOrdersPresenter {
+        void getUserOrders();
+    }
+
+    interface ListOrdersView {
+        void setListOfOrders(ArrayList<order> listOfOrders);
     }
 }
