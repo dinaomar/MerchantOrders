@@ -4,13 +4,19 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 
+import com.gmail.dina_elsaftawy.merchantorder.model.data.Order;
+import com.gmail.dina_elsaftawy.merchantorder.model.data.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 public class RegistrationPresenter implements MainContract.RegirationPresenter {
 
@@ -22,11 +28,10 @@ public class RegistrationPresenter implements MainContract.RegirationPresenter {
         this.registrationView = registrationView;
         FirebaseApp.initializeApp(context);
         mFirebaseAuth = FirebaseAuth.getInstance();
-
     }
 
     @Override
-    public void validateAndSendRegistration(String userName, String password,Activity activity) {
+    public void validateAndSendRegistration(final String userName, final String password, Activity activity) {
         if (!TextUtils.isEmpty(userName) && !TextUtils.isEmpty(password)) {
             mFirebaseAuth.createUserWithEmailAndPassword(userName, password)
                     .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
@@ -35,7 +40,11 @@ public class RegistrationPresenter implements MainContract.RegirationPresenter {
                             if (!task.isSuccessful()) {
                                 registrationView.showRegistrationMessage(task.getException().getMessage());
                             } else {
-                                registrationView.updateViewAfterRegistration();
+                                DatabaseReference mDatabase;
+                                mDatabase = FirebaseDatabase.getInstance().getReference();
+                                User user = new User(userName, password);
+                                mDatabase.child("users").child(mFirebaseAuth.getUid()).setValue(user);
+                                registrationView.updateViewAfterRegistration(userName, mFirebaseAuth.getUid());
                             }
                         }
                     });

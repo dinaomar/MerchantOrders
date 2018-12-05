@@ -1,6 +1,6 @@
 package com.gmail.dina_elsaftawy.merchantorder.model.network;
 
-import com.gmail.dina_elsaftawy.merchantorder.model.data.order;
+import com.gmail.dina_elsaftawy.merchantorder.model.data.Order;
 import com.gmail.dina_elsaftawy.merchantorder.presenter.MainContract;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -14,15 +14,15 @@ public class FirebaseCall {
 
     MainContract.ListOrdersPresenter listOrdersPresenter;
     public DatabaseReference myDatabase;
-    private ArrayList<order> orders;
+    private ArrayList<Order> orders;
 
-    public ArrayList<order> getAllOrders() {
+    public ArrayList<Order> getAllOrders() {
         myDatabase = FirebaseDatabase.getInstance().getReference();
         orders = new ArrayList<>();
         myDatabase.child("orders").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                orders.add((order) dataSnapshot.child("name").getValue());
+                orders.add((Order) dataSnapshot.child("name").getValue());
             }
 
             @Override

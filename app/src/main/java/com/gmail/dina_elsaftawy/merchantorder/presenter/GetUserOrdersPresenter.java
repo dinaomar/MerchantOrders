@@ -15,7 +15,7 @@ public class GetUserOrdersPresenter implements MainContract.ListOrdersPresenter 
     @Override
     public void getUserOrders() {
         FirebaseCall firebaseCall = new FirebaseCall();
-        if (firebaseCall.getAllOrders().size() != 0)
-            listOrdersView.setListOfOrders(firebaseCall.getAllOrders());
+//        if (firebaseCall.getAllOrders().size() != 0)
+//            listOrdersView.setListOfOrders(firebaseCall.getAllOrders());
     }
 }

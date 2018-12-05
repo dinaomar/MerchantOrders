@@ -1,14 +1,9 @@
 package com.gmail.dina_elsaftawy.merchantorder.presenter;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 
-import com.gmail.dina_elsaftawy.merchantorder.model.data.order;
-import com.gmail.dina_elsaftawy.merchantorder.view.RegistrationActivity;
+import com.gmail.dina_elsaftawy.merchantorder.model.data.Order;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.util.ArrayList;
 
 /**
  * Created by dina_elsaftawy on 12/3/2018.
@@ -37,7 +32,7 @@ public interface MainContract {
     }
 
     interface ListOrdersView {
-        void setListOfOrders(ArrayList<order> listOfOrders);
+        void setOrder(Order order);
     }
 
     interface RegirationPresenter {
@@ -45,8 +40,12 @@ public interface MainContract {
     }
 
     interface RegistrationView {
-        void updateViewAfterRegistration();
+        void updateViewAfterRegistration(String email,String userId);
 
         void showRegistrationMessage(String Message);
+    }
+
+    interface AddOrder{
+        void addNewOrder(String userId,String orderTitle,String orderDesc);
     }
 }

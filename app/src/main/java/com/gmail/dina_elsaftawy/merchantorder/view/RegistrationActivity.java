@@ -51,8 +51,10 @@ public class RegistrationActivity extends AppCompatActivity implements MainContr
     }
 
     @Override
-    public void updateViewAfterRegistration() {
+    public void updateViewAfterRegistration(String email, String userId) {
         Intent intent = new Intent(RegistrationActivity.this, UserOrdersActivity.class);
+        intent.putExtra("userName", email);
+        intent.putExtra("userId", userId);
         startActivity(intent);
     }
 
