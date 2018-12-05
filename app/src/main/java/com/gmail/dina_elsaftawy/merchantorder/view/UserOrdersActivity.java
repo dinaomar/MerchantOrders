@@ -3,6 +3,8 @@ package com.gmail.dina_elsaftawy.merchantorder.view;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -27,10 +29,12 @@ import com.gmail.dina_elsaftawy.merchantorder.adapter.RecyclerTouchListener;
 import com.gmail.dina_elsaftawy.merchantorder.model.data.Order;
 import com.gmail.dina_elsaftawy.merchantorder.presenter.AddOrderPresenter;
 import com.gmail.dina_elsaftawy.merchantorder.presenter.MainContract;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -63,11 +67,15 @@ public class UserOrdersActivity extends AppCompatActivity implements MainContrac
         orders = new ArrayList<>();
         ordersAdapter = new OrdersAdapter(orders);
 
+        getOrdersListFromFireBase();
+        recyclerView.setAdapter(ordersAdapter);
+        recyclerView.setHasFixedSize(true);
+
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        recyclerView.setAdapter(ordersAdapter);
+
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, final int position) {
@@ -104,8 +112,6 @@ public class UserOrdersActivity extends AppCompatActivity implements MainContrac
                 showEditAlertDialog(position, orderId, oldTitle, oldDesc);
             }
         }));
-        ordersAdapter.notifyDataSetChanged();
-        getOrdersListFromFireBase();
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -161,9 +167,10 @@ public class UserOrdersActivity extends AppCompatActivity implements MainContrac
     private List<Order> getOrdersListFromFireBase() {
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
         DatabaseReference usersdRef = rootRef.child("orders");
-        ValueEventListener eventListener = new ValueEventListener() {
+        Query applesQuery = rootRef.orderByChild("orders");
+        applesQuery.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     Order order = new Order();
                     String user = ds.child("userName").getValue(String.class);
@@ -175,14 +182,31 @@ public class UserOrdersActivity extends AppCompatActivity implements MainContrac
                         orders.add(order);
                     }
                 }
+                recyclerView.setAdapter(ordersAdapter);
+
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
             }
-        };
-        usersdRef.addListenerForSingleValueEvent(eventListener);
-        ordersAdapter.notifyDataSetChanged();
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+        });
         return orders;
     }
 
@@ -206,7 +230,7 @@ public class UserOrdersActivity extends AppCompatActivity implements MainContrac
                         } else {
                             addOrderDataToFirebase(input1.getText().toString(), input2.getText().toString());
                             // update adapter
-                            ordersAdapter.notifyDataSetChanged();
+                            ordersAdapter.notifyItemInserted(orders.size() - 1);
                             dialog.dismiss();
                         }
 
@@ -227,6 +251,7 @@ public class UserOrdersActivity extends AppCompatActivity implements MainContrac
         String key = mDatabase.child("orders").push().getKey();
         Order order = new Order(s, s1, userNameDisplay.getText().toString(), key);
         mDatabase.child("orders").child(key).setValue(order);
+        orders.add(order);
     }
 
     @Override
