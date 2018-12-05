@@ -28,10 +28,10 @@
             android:textSize="18sp" />
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/listView"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout"></ListView>
-
+        android:layout_below="@+id/linearLayout"
+        android:scrollbars="vertical" />
 </RelativeLayout>
