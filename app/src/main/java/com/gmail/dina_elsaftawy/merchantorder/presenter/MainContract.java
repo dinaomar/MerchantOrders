@@ -1,10 +1,12 @@
 package com.gmail.dina_elsaftawy.merchantorder.presenter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 
 import com.gmail.dina_elsaftawy.merchantorder.model.data.order;
 import com.gmail.dina_elsaftawy.merchantorder.view.RegistrationActivity;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -23,16 +25,11 @@ public interface MainContract {
 
 //        void startRegistrationActivity(Intent intent);
 
-        void makeLogin();
+        void makeLogin(FirebaseUser user);
     }
 
     interface MainPresenter {
-        void validateUserData(String userName, String email);
-
-//        void startRegisterationActivity(Activity currentActivity, Class<RegistrationActivity> registerActivity);
-
-        void callFireBase();
-
+        void validateUserData(String userName, String password,Activity activity);
     }
 
     interface ListOrdersPresenter {
@@ -41,5 +38,15 @@ public interface MainContract {
 
     interface ListOrdersView {
         void setListOfOrders(ArrayList<order> listOfOrders);
+    }
+
+    interface RegirationPresenter {
+        void validateAndSendRegistration(String userName, String password,Activity activity);
+    }
+
+    interface RegistrationView {
+        void updateViewAfterRegistration();
+
+        void showRegistrationMessage(String Message);
     }
 }

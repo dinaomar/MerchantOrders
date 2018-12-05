@@ -15,6 +15,7 @@
         completions."
     </string>
     <string name="enter_username">Enter your username</string>
-    <string name="enter_email">Enter your Email</string>
+    <string name="enter_password">Enter your password</string>
+    <string name="title_activity_user_orders">UserOrdersActivity</string>
 
 </resources>

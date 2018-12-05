@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.gmail.dina_elsaftawy.merchantorder.R;
 import com.gmail.dina_elsaftawy.merchantorder.presenter.LoginPresenter;
 import com.gmail.dina_elsaftawy.merchantorder.presenter.MainContract;
+import com.google.firebase.auth.FirebaseUser;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,7 +43,8 @@ public class LoginActivity extends AppCompatActivity implements MainContract.Mai
         signinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainPresenter.validateUserData(userNameEditText.getText().toString(), userEmailEditText.getText().toString());
+                mainPresenter.validateUserData(userNameEditText.getText().toString(),
+                        userEmailEditText.getText().toString(), LoginActivity.this);
             }
         });
         registerButton.setOnClickListener(new View.OnClickListener() {
@@ -53,7 +55,6 @@ public class LoginActivity extends AppCompatActivity implements MainContract.Mai
             }
         });
     }
-
 
     @Override
     public void updateMainView() {
@@ -70,17 +71,15 @@ public class LoginActivity extends AppCompatActivity implements MainContract.Mai
         userNameEditText.setText("");
         userEmailEditText.setText("");
     }
-    
-
-//    @Override
-//    public void startRegistrationActivity(Intent intent) {
-//        startActivity(intent);
-//    }
-
 
     @Override
-    public void makeLogin() {
-
+    public void makeLogin(FirebaseUser user) {
+        String userId = user.getUid();
+        String userName = user.getEmail();
+        Intent intent = new Intent(LoginActivity.this, UserOrdersActivity.class);
+        intent.putExtra("userId", userId);
+        intent.putExtra("userName", userName);
+        startActivity(intent);
     }
 }
 
