@@ -30,17 +30,9 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.MyViewHold
 
         public MyViewHolder(View view) {
             super(view);
-            title = (TextView) view.findViewById(R.id.order_title);
-            desc = (TextView) view.findViewById(R.id.order_desc);
+            title = view.findViewById(R.id.order_title);
+            desc =  view.findViewById(R.id.order_desc);
         }
-    }
-
-    public void showDate(Collection<Order> orders) {
-        orders.clear();
-        orders.addAll(orders);
-
-        notifyDataSetChanged(); // 8a;aaaaaat el mfrod tt3ml bel range
-
     }
 
     @Override
