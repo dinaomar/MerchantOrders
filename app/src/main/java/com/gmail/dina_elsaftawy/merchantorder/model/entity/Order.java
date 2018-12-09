@@ -1,4 +1,4 @@
-package com.gmail.dina_elsaftawy.merchantorder.model.data;
+package com.gmail.dina_elsaftawy.merchantorder.model.entity;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 

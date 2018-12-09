@@ -2,18 +2,18 @@ package com.gmail.dina_elsaftawy.merchantorder.view;
 
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.gmail.dina_elsaftawy.merchantorder.R;
+import com.gmail.dina_elsaftawy.merchantorder.model.repository.RepositotyAuthentication;
 import com.gmail.dina_elsaftawy.merchantorder.presenter.LoginPresenter;
 import com.gmail.dina_elsaftawy.merchantorder.presenter.MainContract;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,6 +24,7 @@ import butterknife.ButterKnife;
 public class LoginActivity extends AppCompatActivity implements MainContract.MainView {
 
     MainContract.MainPresenter mainPresenter;
+    RepositotyAuthentication repositotyAuthentication = new RepositotyAuthentication();
 
     @BindView(R.id.userEmail)
     EditText userEmailEditText;
@@ -39,7 +40,7 @@ public class LoginActivity extends AppCompatActivity implements MainContract.Mai
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        mainPresenter = new LoginPresenter(this);
+        mainPresenter = new LoginPresenter(this, repositotyAuthentication);
         signinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +74,7 @@ public class LoginActivity extends AppCompatActivity implements MainContract.Mai
     }
 
     @Override
-    public void makeLogin(FirebaseUser user) {
+    public void gotoOrders(UserInfo user) {
         String userId = user.getUid();
         String userName = user.getEmail();
         Intent intent = new Intent(LoginActivity.this, UserOrdersActivity.class);

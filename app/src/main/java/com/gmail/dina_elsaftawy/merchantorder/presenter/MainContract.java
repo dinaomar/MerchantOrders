@@ -2,8 +2,9 @@ package com.gmail.dina_elsaftawy.merchantorder.presenter;
 
 import android.app.Activity;
 
-import com.gmail.dina_elsaftawy.merchantorder.model.data.Order;
+import com.gmail.dina_elsaftawy.merchantorder.model.entity.Order;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 
 /**
  * Created by dina_elsaftawy on 12/3/2018.
@@ -20,7 +21,7 @@ public interface MainContract {
 
 //        void startRegistrationActivity(Intent intent);
 
-        void makeLogin(FirebaseUser user);
+        void gotoOrders(UserInfo user);
     }
 
     interface MainPresenter {

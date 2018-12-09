@@ -1,8 +1,6 @@
-package com.gmail.dina_elsaftawy.merchantorder.model.data;
+package com.gmail.dina_elsaftawy.merchantorder.model.entity;
 
 import com.google.firebase.database.IgnoreExtraProperties;
-
-import java.util.ArrayList;
 
 @IgnoreExtraProperties
 public class User {

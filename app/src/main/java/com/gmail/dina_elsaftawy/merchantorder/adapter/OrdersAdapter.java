@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.gmail.dina_elsaftawy.merchantorder.R;
-import com.gmail.dina_elsaftawy.merchantorder.model.data.Order;
+import com.gmail.dina_elsaftawy.merchantorder.model.entity.Order;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -18,6 +20,10 @@ import java.util.List;
 public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.MyViewHolder> {
 
     private List<Order> orders;
+
+    public OrdersAdapter(List<Order> orders) {
+        this.orders = orders;
+    }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, desc;
@@ -29,8 +35,12 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.MyViewHold
         }
     }
 
-    public OrdersAdapter(List<Order> orders) {
-        this.orders = orders;
+    public void showDate(Collection<Order> orders) {
+        orders.clear();
+        orders.addAll(orders);
+
+        notifyDataSetChanged(); // 8a;aaaaaat el mfrod tt3ml bel range
+
     }
 
     @Override

@@ -1,7 +1,11 @@
 package com.gmail.dina_elsaftawy.merchantorder.view;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,8 +21,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,8 +28,7 @@ import android.widget.Toast;
 import com.gmail.dina_elsaftawy.merchantorder.R;
 import com.gmail.dina_elsaftawy.merchantorder.adapter.OrdersAdapter;
 import com.gmail.dina_elsaftawy.merchantorder.adapter.RecyclerTouchListener;
-import com.gmail.dina_elsaftawy.merchantorder.model.data.Order;
-import com.gmail.dina_elsaftawy.merchantorder.presenter.AddOrderPresenter;
+import com.gmail.dina_elsaftawy.merchantorder.model.entity.Order;
 import com.gmail.dina_elsaftawy.merchantorder.presenter.MainContract;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -35,7 +36,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,26 +46,30 @@ import butterknife.ButterKnife;
 public class UserOrdersActivity extends AppCompatActivity implements MainContract.ListOrdersView {
 
     @BindView(R.id.userNameDisplay)
-    TextView userNameDisplay;
-    private String userID;
+    protected TextView userNameDisplay;
     @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
-    OrdersAdapter ordersAdapter;
-    List<Order> orders;
+    protected RecyclerView recyclerView;
 
+    private OrdersAdapter ordersAdapter;
+    private List<Order> orders;
+    private NotificationManager notificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_orders);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
         Intent intent = getIntent();
         userNameDisplay.setText(intent.getStringExtra("userName"));
-        userID = intent.getStringExtra("userId");
         orders = new ArrayList<>();
         ordersAdapter = new OrdersAdapter(orders);
+
+        // notification
+        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        checkAndroidVersionForNotification();
 
         getOrdersListFromFireBase();
         recyclerView.setAdapter(ordersAdapter);
@@ -120,6 +124,32 @@ public class UserOrdersActivity extends AppCompatActivity implements MainContrac
                 createAndShowAlertDialog();
             }
         });
+    }
+
+    private void checkAndroidVersionForNotification() {
+        String channelId = "1";
+        String channel2 = "2";
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel(channelId,
+                    "Channel 1", NotificationManager.IMPORTANCE_HIGH);
+
+            notificationChannel.setDescription("This is BNT");
+            notificationChannel.setLightColor(Color.RED);
+            notificationChannel.enableVibration(true);
+            notificationChannel.setShowBadge(true);
+            notificationManager.createNotificationChannel(notificationChannel);
+
+            NotificationChannel notificationChannel2 = new NotificationChannel(channel2,
+                    "Channel 2", NotificationManager.IMPORTANCE_MIN);
+
+            notificationChannel.setDescription("This is bTV");
+            notificationChannel.setLightColor(Color.RED);
+            notificationChannel.enableVibration(true);
+            notificationChannel.setShowBadge(true);
+            notificationManager.createNotificationChannel(notificationChannel2);
+
+        }
     }
 
     private void showEditAlertDialog(final int position, final String orderId, String oldTitle, String oldDesc) {

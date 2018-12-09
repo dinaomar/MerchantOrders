@@ -5,18 +5,14 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.gmail.dina_elsaftawy.merchantorder.model.data.Order;
-import com.gmail.dina_elsaftawy.merchantorder.model.data.User;
+import com.gmail.dina_elsaftawy.merchantorder.model.entity.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
 
 public class RegistrationPresenter implements MainContract.RegirationPresenter {
 
